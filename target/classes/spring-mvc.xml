@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+  http://www.springframework.org/schema/mvc
+  http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+  
+  	
+	<!-- 定义组件扫描器，指定需要扫描的包 -->
+	<context:component-scan base-package="cesium.controller" />	
+	<!-- 配置了对@Controller标签的支持   注解驱动        3.2之后spring-mvc新特征-->
+	<mvc:annotation-driven/>
+
+	
+	<!-- 定义视图解析器:简化controller类编写的视图路径 -->
+	<bean id="viewResolver" class=
+    "org.springframework.web.servlet.view.InternalResourceViewResolver">
+	     <!-- 设置前缀 -->
+	     <property name="prefix" value="/WEB-INF/jsp/" />
+	     <!-- 设置后缀 -->
+	     <property name="suffix" value=".jsp" />
+	</bean>
+	
+	
+    <!-- 配置拦截器 
+	<mvc:interceptors>
+		<mvc:interceptor>
+    		<mvc:mapping path="/**" />
+    		<bean class="edu.xhu.interceptor.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	-->
+</beans>  
