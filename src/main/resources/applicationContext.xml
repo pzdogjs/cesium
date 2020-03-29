@@ -15,7 +15,7 @@
     <!--读取db.properties -->
     <context:property-placeholder location="classpath:db.properties"/>
     <!-- 配置数据源 -->
-	<bean id="dataSource" 
+	<bean id="dataSource"
             class="org.apache.commons.dbcp2.BasicDataSource">
         <!--数据库驱动 -->
         <property name="driverClassName" value="${jdbc.driver}" />

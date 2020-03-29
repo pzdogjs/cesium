@@ -5,12 +5,65 @@
 
 
 <mapper namespace="cesium.dao.Ele_fieldDao">
-	<insert id="saveEle_field" >
-	INSERT INTO ele_field
-	(x, y, height, r) 
-	VALUES 
-	(#{x},#{y},#{height},#{r})
+	<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端   ！！！here--><!--这里只是定义，，必须在insert等内指定resultmap-->
+	<resultMap id="map1" type="cesium.pojo.Ele_field">
+	<id property="" column=""></id>
+		<result property="name" column="name"></result>
+		<result property="x" column="x"></result>
+		<result property="y" column="y"></result>
+		<result property="r" column="r"></result>
+		<result property="height" column="height"></result>
+
+	</resultMap>
+
+
+
+	<insert id="save" >
+		INSERT INTO ele_field (x, y, height, r)
+		VALUES  (#{x},#{y},#{height},#{r})
+
+		<selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER"><!--keyProperty实体类id   keyColumn数据库id列-->
+			select last_insert_id()
+		</selectKey>
 	</insert>
+
+	<delete id="delById" >
+		delete from ele_field
+		where id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="cesium.pojo.Ele_field" >
+	 	update ele_field
+	 	set x=#{x}, y=#{y}, height=#{height}, r=#{r}, name = #{name}
+		where id = #{id}
+	</update>
+
+	<select id="selectAll" resultType="cesium.pojo.Ele_field" resultMap="map1">
+		select * from ele_field
+		<!-- ()()()(不推荐)select  id（datasourceLineName） as userId（pojo.propertiesName）........    from tble   可以解决数据库列名与pojo属性名不同的冲突问题-->
+		<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端-->
+
+	</select>
+
+	<select id="selectById" resultType="cesium.pojo.Ele_field">
+		select * from ele_field where id = #{id}
+	</select>
+
+	<select id="selectByLikeName" parameterType="String" resultType="cesium.pojo.Ele_field">
+			select * from ele_field
+			where name like #{name}
+
+	</select>
+	<select id="CountNumber" resultType="int">
+		select count(*) from ele_field
+
+	</select>
+	<select id="selectByCondition" parameterType= "cesium.pojo.Ele_field" resultType="cesium.pojo.Ele_field">
+		select * from ele_field where 1=1
+		<if test="x != null">
+			and x=#{x}
+		</if>
+	</select>
 	
 	
 </mapper>

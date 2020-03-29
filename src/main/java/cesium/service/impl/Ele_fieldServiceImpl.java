@@ -21,6 +21,6 @@ public class Ele_fieldServiceImpl implements Ele_fieldService {
 	private Ele_fieldDao ele_fieldDao;
 	@Override
 	public void saveEle_field(Ele_field ele_field) {
-		ele_fieldDao.saveEle_field(ele_field);
+		ele_fieldDao.save(ele_field);
 	}
 }
