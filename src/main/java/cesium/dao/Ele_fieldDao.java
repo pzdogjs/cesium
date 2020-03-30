@@ -1,6 +1,7 @@
 package cesium.dao;
 
 import cesium.pojo.Ele_field;
+import cesium.pojo.QueryVo;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface Ele_fieldDao {
 	public int CountNumber();
 
 	public List<Ele_field> selectByCondition(Ele_field ele_field);
+
+	List<Ele_field> selectInIds(QueryVo queryVo);//根据queryvo中int集合，查询
+
+	List<Ele_field> selectAndCamp();//多表查询
 }

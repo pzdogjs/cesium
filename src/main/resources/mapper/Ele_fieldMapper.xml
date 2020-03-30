@@ -13,14 +13,30 @@
 		<result property="y" column="y"></result>
 		<result property="r" column="r"></result>
 		<result property="height" column="height"></result>
+		<result property="cid_fk" column="cid_fk"></result>
+
+	</resultMap>
+	<resultMap id="Ele_fieldCamp" type="cesium.pojo.Ele_field">
+		<id property="id" column="id"></id>
+		<result property="name" column="name"></result>
+		<result property="x" column="x"></result>
+		<result property="y" column="y"></result>
+		<result property="r" column="r"></result>
+		<result property="height" column="height"></result>
+		<result property="cid_fk" column="cid_fk"></result>
+		<association property="camp" javaType="cesium.pojo.Camp" >
+			<id property="id" column="cid"></id>
+			<result property="name" column="cname"></result>
+
+		</association>
 
 	</resultMap>
 
 
 
 	<insert id="save" >
-		INSERT INTO ele_field (x, y, height, r)
-		VALUES  (#{x},#{y},#{height},#{r})
+		INSERT INTO ele_field (x, y, height, r,name,cid_fk)
+		VALUES  (#{x},#{y},#{height},#{r},#{name},#{cid_fk})
 
 		<selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER"><!--keyProperty实体类id   keyColumn数据库id列-->
 			select last_insert_id()
@@ -34,7 +50,7 @@
 
 	<update id="updateById" parameterType="cesium.pojo.Ele_field" >
 	 	update ele_field
-	 	set x=#{x}, y=#{y}, height=#{height}, r=#{r}, name = #{name}
+	 	set x=#{x}, y=#{y}, height=#{height}, r=#{r}, name = #{name},cid_fk=#{cid_fk}
 		where id = #{id}
 	</update>
 
@@ -59,10 +75,32 @@
 
 	</select>
 	<select id="selectByCondition" parameterType= "cesium.pojo.Ele_field" resultType="cesium.pojo.Ele_field">
-		select * from ele_field where 1=1
+		select * from ele_field
+		<where>
 		<if test="x != null">
 			and x=#{x}
 		</if>
+		<!--
+		<if test="x != null">
+			and x=#{x}
+		</if>
+		-->
+		</where>
+	</select>
+	<select id="selectInIds" resultMap="map1" parameterType="cesium.pojo.QueryVo">
+		select * from ele_field
+		<where>
+			<if test="ids!=null and ids.size()>0">
+				<foreach collection="ids" open="and id in(" close=")" item="id" separator=","><!--item="id"即是#{id} -->
+				#{id}
+				</foreach>
+			</if>
+
+		</where>
+	</select>
+	<select id="selectAndCamp"  resultMap="Ele_fieldCamp">
+		select e.*,c.id as cid, c.name as cname from ele_field as e ,camp as c
+		where e.cid_fk = c.id
 	</select>
 	
 	

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cesium.dao.CampDao">
+    <resultMap id="CampEle_field" type="cesium.pojo.Camp">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+
+        <collection property="ele_fields" ofType="cesium.pojo.Ele_field">
+            <id property="id" column="eid"></id>
+            <result property="name" column="ename"></result>
+            <result property="x" column="ex"></result>
+            <result property="y" column="ey"></result>
+            <result property="r" column="er"></result>
+            <result property="height" column="eheight"></result>
+            <result property="cid_fk" column="ecid_fk"></result>
+
+        </collection>
+    </resultMap>
+    <select id="findAll"  resultMap="CampEle_field">
+		SELECT c.*,e.height as eheight,e.id as eid ,e.name as ename ,e.x as ex ,e.y as ey,e.r as er,e.cid_fk as ecid_fk
+        FROM ele_field as e ,camp as c
+        where e.cid_fk =c.id
+	</select>
+</mapper>
