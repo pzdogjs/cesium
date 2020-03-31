@@ -48,7 +48,7 @@
    <!-- 调用时，bean名字默认类名首字母小写
     -->
   
-	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要mapper.xml -->
+	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要daoimpl -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 	     <property name="basePackage" value="cesium.dao" />
 	</bean> 
