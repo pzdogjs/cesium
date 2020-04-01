@@ -14,8 +14,8 @@ import java.util.List;
 public class test {
  @Test
  public void main() {
-	 
-	 ApplicationContext aContext=new ClassPathXmlApplicationContext("applicationContext.xml");
+
+     ClassPathXmlApplicationContext aContext=new ClassPathXmlApplicationContext("applicationContext.xml");
 	
 	 Ele_fieldDao eMapper=(Ele_fieldDao) aContext.getBean("ele_fieldDao");
 
@@ -106,7 +106,7 @@ public class test {
      }
 
 	  */
-
+aContext.close();
 
 
  }

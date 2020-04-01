@@ -2,8 +2,10 @@ package cesium.dao;
 
 import cesium.pojo.Ele_field;
 import cesium.pojo.QueryVo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 
 public interface Ele_fieldDao {
 	public void save(Ele_field ele_field);

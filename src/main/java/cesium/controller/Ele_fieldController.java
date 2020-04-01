@@ -16,7 +16,7 @@ import cesium.service.Ele_fieldService;
 @RequestMapping("/ele_fieldController")
 public class Ele_fieldController {
 
-	@Autowired
+	@Resource(name = "ele_fieldService")
 	private Ele_fieldService ele_fieldService;
 
 

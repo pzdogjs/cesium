@@ -49,13 +49,13 @@
     -->
   
 	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要daoimpl -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 	     <property name="basePackage" value="cesium.dao" />
 	</bean> 
 	
     
   <!-- 开启注解扫描4444444444444444444444444444 --> 
-	<context:component-scan base-package="cesium" >
+	<context:component-scan base-package="cesium"  >
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 	
