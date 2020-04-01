@@ -36,7 +36,7 @@
 	
 	 <!--配置MyBatis工厂 -->
     <bean id="sqlSessionFactory"
-        class="org.mybatis.spring.SqlSessionFactoryBean">
+        class="org.mybatis.spring.SqlSessionFactoryBean" scope="prototype">
         <!--注入数据源 -->
         <property name="dataSource" ref="dataSource" />
         <!--指定核心配置文件位置 -->
