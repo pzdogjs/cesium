@@ -54,10 +54,10 @@ logAbandoned：是否记录中断事件， 默认为 false；
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
    </bean>
    
-   
-  
-   <!-- 调用时，bean名字默认类名首字母小写
-    -->
+
+
+    <!-- 调用时，bean名字默认类名首字母小写
+     -->
   
 	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要daoimpl -->
 	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
