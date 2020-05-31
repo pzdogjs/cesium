@@ -13,7 +13,12 @@
 		<result property="y" column="y"></result>
 		<result property="r" column="r"></result>
 		<result property="height" column="height"></result>
-		<result property="cid_fk" column="cid_fk"></result>
+
+		<result property="hz" column="hz"></result>
+		<result property="type" column="type"></result>
+		<result property="state" column="state"></result>
+		<result property="task" column="task"></result>
+		<result property="info" column="info"></result>
 
 	</resultMap>
 	<resultMap id="Ele_fieldCamp" type="cesium.pojo.Ele_field">
@@ -23,7 +28,12 @@
 		<result property="y" column="y"></result>
 		<result property="r" column="r"></result>
 		<result property="height" column="height"></result>
-		<result property="cid_fk" column="cid_fk"></result>
+
+		<result property="hz" column="hz"></result>
+		<result property="type" column="type"></result>
+		<result property="state" column="state"></result>
+		<result property="task" column="task"></result>
+		<result property="info" column="info"></result>
 		<association property="camp" javaType="cesium.pojo.Camp" >
 			<id property="id" column="cid"></id>
 			<result property="name" column="cname"></result>
@@ -35,8 +45,8 @@
 
 
 	<insert id="save" >
-		INSERT INTO ele_field (x, y, height, r,name,cid_fk)
-		VALUES  (#{x},#{y},#{height},#{r},#{name},#{cid_fk})
+		INSERT INTO ele_field (x, y, height, r,name,hz,type,state,task,info)
+		VALUES  (#{x},#{y},#{height},#{r},#{name},#{hz},#{type},#{state},#{task},#{info})
 
 		<selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER"><!--keyProperty实体类id   keyColumn数据库id列-->
 			select last_insert_id()
@@ -50,7 +60,8 @@
 
 	<update id="updateById" parameterType="cesium.pojo.Ele_field" >
 	 	update ele_field
-	 	set x=#{x}, y=#{y}, height=#{height}, r=#{r}, name = #{name},cid_fk=#{cid_fk}
+	 	set x=#{x}, y=#{y}, height=#{height}, r=#{r}, name = #{name}
+	 	,hz=#{hz},type=#{type},state=#{state},task=#{task},info=#{info}
 		where id = #{id}
 	</update>
 

@@ -9,6 +9,8 @@
         <module name="cesium" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="13" />
+    <bytecodeTargetLevel>
+      <module name="cesium" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

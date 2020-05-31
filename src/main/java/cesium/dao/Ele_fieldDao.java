@@ -4,6 +4,7 @@ import cesium.pojo.Ele_field;
 import cesium.pojo.QueryVo;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ public interface Ele_fieldDao {
 
 	public void updateById(Ele_field ele_field);
 
-	public List<Ele_field> selectAll();
+	public ArrayList<Ele_field> selectAll();
 
 	public Ele_field selectById(int id);
 

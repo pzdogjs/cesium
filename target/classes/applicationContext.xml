@@ -14,9 +14,20 @@
     http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
     <!--读取db.properties -->
     <context:property-placeholder location="classpath:db.properties"/>
-    <!-- 配置数据源 -->
+    <!-- 配置数据源
+BasicDataSource提供了close()方法关闭数据源，所以必须设定destroy-method=”close”属性， 以便Spring容器关闭时，数据源能够正常关闭。
+defaultAutoCommit：设置从数据源中返回的连接是否采用自动提交机制，默认值为 true；
+defaultReadOnly：设置数据源是否仅能执行只读操作， 默认值为 false；
+maxActive：最大连接数据库连接数，设置为0时，表示没有限制；
+maxIdle：最大等待连接中的数量，设置为0时，表示没有限制；
+maxWait：最大等待秒数，单位为毫秒， 超过时间会报出错误信息；
+validationQuery：用于验证连接是否成功的查询SQL语句，SQL语句必须至少要返回一行数据， 如你可以简单地设置为：“select count(*) from user”；
+removeAbandoned：是否自我中断，默认是 false ；
+removeAbandonedTimeout：几秒后数据连接会自动断开，在removeAbandoned为true，提供该值；
+logAbandoned：是否记录中断事件， 默认为 false；
+-->
 	<bean id="dataSource"
-            class="org.apache.commons.dbcp2.BasicDataSource">
+            class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" lazy-init="default">
         <!--数据库驱动 -->
         <property name="driverClassName" value="${jdbc.driver}" />
         <!--连接数据库的url -->
@@ -36,26 +47,38 @@
 	
 	 <!--配置MyBatis工厂 -->
     <bean id="sqlSessionFactory"
-        class="org.mybatis.spring.SqlSessionFactoryBean">
+        class="org.mybatis.spring.SqlSessionFactoryBean" scope="prototype">
         <!--注入数据源 -->
         <property name="dataSource" ref="dataSource" />
         <!--指定核心配置文件位置 -->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- 引入插件，一下分页-->
+        <property name="plugins">
+            <array>
+                <!-- 引入插件，一下分页-->
+                <bean class ="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect = mysql
+                        </value>
+                    </property>
+                </bean>
+            </array>
+
+        </property>
    </bean>
    
-   
+    <!-- 调用时，bean名字默认类名首字母小写
+     -->
   
-   <!-- 调用时，bean名字默认类名首字母小写
-    -->
-  
-	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要mapper.xml -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- Mapper代理开发（基于MapperScannerConfigurer）  对所有此文件下的mapper或者说是dao文件自动实现，，不再需要daoimpl -->
+	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 	     <property name="basePackage" value="cesium.dao" />
 	</bean> 
 	
     
   <!-- 开启注解扫描4444444444444444444444444444 --> 
-	<context:component-scan base-package="cesium" >
+	<context:component-scan base-package="cesium"  >
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 	
@@ -67,9 +90,4 @@
     <!--开启事务注解 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
-	
-   
-   
-   
-
 </beans>

@@ -3,7 +3,9 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+
   <display-name>Archetype Created Web Application</display-name>
+
 
   <!-- 修改路径到xml -->
   <context-param>
@@ -11,11 +13,26 @@
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
   <!-- start   spring -->
+
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <!-- start   spring -->
-  <!-- start spring mvc -->
+
+  <!-- start spring mvc  配置了前端控制器，拦截了所有静态的资源请求，包含对js的引入，在springmvc中配置不拦截的对象 -->
   <servlet>
     <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -32,14 +49,17 @@
   </servlet-mapping>
   <!-- start spring mvc -->
 
+
   <welcome-file-list>
 
     <welcome-file>index.jsp</welcome-file>
+
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
 
-    <welcome-file>test.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
+

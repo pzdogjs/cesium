@@ -12,7 +12,8 @@
   
   	
 	<!-- 定义组件扫描器，指定需要扫描的包 -->
-	<context:component-scan base-package="cesium.controller" />	
+	<context:component-scan base-package="cesium.controller" />
+
 	<!-- 配置了对@Controller标签的支持   注解驱动        3.2之后spring-mvc新特征-->
 	<mvc:annotation-driven/>
 
@@ -34,7 +35,8 @@
     		<bean class="edu.xhu.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	
 	-->
+	<!-- 配置不拦截的资源  mvc3.0以后用这种更高效-->
+	<mvc:default-servlet-handler />
+
 </beans>  

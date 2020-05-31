@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cesium.dao.UserDao">
+	<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端   ！！！here--><!--这里只是定义，，必须在insert等内指定resultmap-->
+	<resultMap id="map1" type="cesium.pojo.User">
+	<id property="" column=""></id>
+		<result property="name" column="name"></result>
+		<result property="password" column="password"></result>
+		<result property="age" column="age"></result>
+		<result property="gender" column="gender"></result>
+		<result property="edu" column="edu"></result>
+		<result property="idcard" column="idcard"></result>
+		<result property="info" column="info"></result>
+
+	</resultMap>
+	<resultMap id="Ele_fieldCamp" type="cesium.pojo.Ele_field">
+		<id property="id" column="id"></id>
+		<result property="name" column="name"></result>
+		<result property="x" column="x"></result>
+		<result property="y" column="y"></result>
+		<result property="r" column="r"></result>
+		<result property="height" column="height"></result>
+		<result property="cid_fk" column="cid_fk"></result>
+		<association property="camp" javaType="cesium.pojo.Camp" >
+			<id property="id" column="cid"></id>
+			<result property="name" column="cname"></result>
+
+		</association>
+
+	</resultMap>
+
+
+
+	<insert id="save" >
+		INSERT INTO user
+		(id, name, password,age,gender,edu,idcard,info)
+		VALUES
+		(#{id},#{name},#{password},#{age},#{gender},#{edu},#{idcard},#{info})
+
+		<selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER"><!--keyProperty实体类id   keyColumn数据库id列-->
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<delete id="delById" >
+		delete from user
+		where id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="cesium.pojo.User" >
+	 	update user
+	 	set name=#{name}, password=#{password},age=#{age},gender=#{gender},edu=#{edu},idcard=#{idcard},info=#{info}
+		where id = #{id}
+	</update>
+
+	<select id="selectAll" resultType="cesium.pojo.User" resultMap="map1">
+		select * from user
+		<!-- ()()()(不推荐)select  id（datasourceLineName） as userId（pojo.propertiesName）........    from tble   可以解决数据库列名与pojo属性名不同的冲突问题-->
+		<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端-->
+
+	</select>
+
+	<select id="selectById" resultType="cesium.pojo.User">
+		select * from user where id = #{id}
+	</select>
+
+
+	<select id="CountNumber" resultType="int">
+		select count(*) from user
+
+	</select>
+	<select id="selectByName" parameterType="String" resultType="cesium.pojo.User">
+			select * from user
+			where name = #{name}
+
+	</select>
+
+
+	
+	
+</mapper>

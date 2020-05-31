@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cesium.dao.AirDao">
+	<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端   ！！！here--><!--这里只是定义，，必须在insert等内指定resultmap-->
+	<resultMap id="map1" type="cesium.pojo.Air">
+		<id property="" column=""></id>
+
+		<result property="end" column="end"></result>
+		<result property="start" column="start"></result>
+		<result property="info" column="info"></result>
+		<result property="name" column="name"></result>
+		<result property="type" column="type"></result>
+
+		<result property="x" column="x"></result>
+		<result property="y" column="y"></result>
+		<result property="h" column="h"></result>
+
+	</resultMap>
+
+	<select id="selectAll" resultType="cesium.pojo.Air" resultMap="map1">
+		select * from air
+		<!-- ()()()(不推荐)select  id（datasourceLineName） as userId（pojo.propertiesName）........    from tble   可以解决数据库列名与pojo属性名不同的冲突问题-->
+		<!--也可以用配置方式如:在mapper内，，select标签外，，最顶端-->
+
+	</select>
+
+	<insert id="save" >
+		INSERT INTO air (id,  start , end ,name,type,info,x,y,h)
+		VALUES  (#{id},#{start},#{end},#{name},#{type},#{info},#{x},#{y},#{h})
+
+		<selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER"><!--keyProperty实体类id   keyColumn数据库id列-->
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<delete id="delById" >
+		delete from air
+		where id = #{id}
+	</delete>
+
+	<update id="updateById" parameterType="cesium.pojo.Air" >
+	 	update air
+	 	set id=#{id},start=#{start},end=#{end},name = #{name},type = #{type},info = #{info},x=#{x},y=#{y},h=#{h}
+		where id = #{id}
+	</update>
+	<select id="selectById" resultType="cesium.pojo.Air">
+		select * from air where id = #{id}
+	</select>
+
+</mapper>

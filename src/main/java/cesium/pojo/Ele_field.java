@@ -9,8 +9,52 @@ public class Ele_field  implements Serializable {
 	private double height;
 	private double r;
 	private String name;
-	private int cid_fk;
-	private Camp camp;
+
+	private float hz;
+	private String type;
+	private String state;
+	private String task;
+	private String info;
+
+	public float getHz() {
+		return hz;
+	}
+
+	public void setHz(float hz) {
+		this.hz = hz;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getTask() {
+		return task;
+	}
+
+	public void setTask(String task) {
+		this.task = task;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
 
 	public double getX() {
 		return x;
@@ -22,21 +66,7 @@ public class Ele_field  implements Serializable {
 		return y;
 	}
 
-	public int getCid_fk() {
-		return cid_fk;
-	}
 
-	public void setCid_fk(int cid_fk) {
-		this.cid_fk = cid_fk;
-	}
-
-	public Camp getCamp() {
-		return camp;
-	}
-
-	public void setCamp(Camp camp) {
-		this.camp = camp;
-	}
 
 	public void setY(double y) {
 		this.y = y;
@@ -78,10 +108,11 @@ public class Ele_field  implements Serializable {
 				", height=" + height +
 				", r=" + r +
 				", name='" + name + '\'' +
-				", cid_fk=" + cid_fk +
-				", camp=" + camp +
+				", hz=" + hz +
+				", type='" + type + '\'' +
+				", state='" + state + '\'' +
+				", task='" + task + '\'' +
+				", info='" + info + '\'' +
 				'}';
 	}
-
-
 }
