@@ -118,7 +118,6 @@ public class HeatMapController {
 		//do
 		ModelAndView mv =new ModelAndView();
 		List<HeatMap> l = heatMapService.showAll();
-		System.out.println(l.get(1).toString());
 
 		mv.addObject("list",l);
 		mv.setViewName("heatMap_man");
@@ -162,16 +161,22 @@ public class HeatMapController {
 	@ResponseBody
 	public Map<String,Object> insert(HeatMap heatMap) throws UnsupportedEncodingException {
 		System.out.println("insert================================re");
+		if(heatMapService.selectById(heatMap.getId())==null){
+			try{
+				heatMapService.save(heatMap);
+				result.put("success",true);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				result.put("success",false);
+				result.put("msg",e.getMessage());
+			}
+		}
+		else{
+			heatMapService.updateById(heatMap);
+		}
 
-		try{
-			heatMapService.save(heatMap);
-			result.put("success",true);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-			result.put("success",false);
-			result.put("msg",e.getMessage());
-		}
+
 		return result;
 	}
 

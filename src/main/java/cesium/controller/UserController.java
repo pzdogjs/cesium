@@ -239,12 +239,80 @@ public class UserController {
 
 	}
 ///////////////////layui
+
+	@RequestMapping("lay-login")
+	@ResponseBody
+	public Map<String,Object> lay_login(HttpServletRequest request) throws UnsupportedEncodingException {
+		System.out.println("login================================re");
+		Map requestParams = request.getParameterMap();
+		Map<String, String> params = new HashMap<String, String>();
+		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+			}
+			// 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+			valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+			params.put(name, valueStr);
+		}
+		System.out.println(userService.selectById(Integer.parseInt(params.get("id"))).toString());
+		System.out.println("password==="+params.get("password"));
+		if(userService.selectById(Integer.parseInt(params.get("id"))) == null){
+			System.out.println("id err="+params.get("id"));
+			result.put("success",false);
+		}
+		else if(userService.selectById(Integer.parseInt(params.get("id"))).getPassword().equals(params.get("password"))){
+			System.out.println("id ok="+params.get("id"));
+			result.put("success",true);
+		}
+		else{
+			System.out.println("id err="+params.get("id"));
+			result.put("success",false);
+		}
+		return result;
+	}
+	@RequestMapping("lay-dologin")
+	public String lay_dologin() {
+				return "index";
+	}
+	@RequestMapping("lay-re")
+	@ResponseBody
+	public Map<String,Object> lay_re(HttpServletRequest request) throws UnsupportedEncodingException {
+		System.out.println("login================================re");
+		Map requestParams = request.getParameterMap();
+		Map<String, String> params = new HashMap<String, String>();
+		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+			}
+			// 乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
+			valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+			params.put(name, valueStr);
+		}
+		System.out.println("re get id="+params.get("id"));
+		User user=new User();
+		user.setPassword(params.get("name"));
+		user.setId(Integer.parseInt(params.get("id")));
+		if(userService.selectById(Integer.parseInt(params.get("id"))) == null){
+			userService.saveUser(user);
+			result.put("success",true);
+			System.out.println("id re ok="+params.get("id"));
+		}else{
+
+			result.put("success",false);
+		}
+		return result;
+	}
 @RequestMapping("all")
 public ModelAndView all() {
 	//do
 	ModelAndView mv =new ModelAndView();
 	List<User> l = userService.showAll();
-	System.out.println(l.get(1).toString());
 
 	mv.addObject("list",l);
 	mv.setViewName("user_man");
@@ -284,17 +352,22 @@ public ModelAndView all() {
 	@RequestMapping("insert")
 	@ResponseBody
 	public Map<String,Object> insert(User user) throws UnsupportedEncodingException {
-		System.out.println("insert================================re");
+		System.out.println("insert or  updat================================re");
+		if(userService.selectById(user.getId())==null){
+			try{
+				userService.saveUser(user);
+				result.put("success",true);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				result.put("success",false);
+				result.put("msg",e.getMessage());
+			}
+		}
+		else{
+			userService.updateById(user);
+		}
 
-		try{
-			userService.saveUser(user);
-			result.put("success",true);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-			result.put("success",false);
-			result.put("msg",e.getMessage());
-		}
 		return result;
 	}
 

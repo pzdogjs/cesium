@@ -160,7 +160,6 @@ private Map<String,Object> result = new HashMap<String,Object>();
 		//do
 		ModelAndView mv =new ModelAndView();
 		List<Ele_field> l = ele_fieldService.showAll();
-		System.out.println(l.get(1).toString());
 
 		mv.addObject("list",l);
 		mv.setViewName("ele_man");
@@ -201,16 +200,22 @@ private Map<String,Object> result = new HashMap<String,Object>();
 	@ResponseBody
 	public Map<String,Object> insert(Ele_field ele_field) throws UnsupportedEncodingException {
 		System.out.println("insert================================re");
+		if(ele_fieldService.selectById(ele_field.getId())==null){
+			try{
+				ele_fieldService.save(ele_field);
+				result.put("success",true);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				result.put("success",false);
+				result.put("msg",e.getMessage());
+			}
+		}
+		else{
+			ele_fieldService.updateById(ele_field);
+		}
 
-		try{
-			ele_fieldService.save(ele_field);
-			result.put("success",true);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-			result.put("success",false);
-			result.put("msg",e.getMessage());
-		}
+
 		return result;
 	}
 

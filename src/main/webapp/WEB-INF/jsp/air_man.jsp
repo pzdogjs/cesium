@@ -34,10 +34,10 @@
 
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加','../jspController/air-add',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','../jspController/air-add',600,400)"><i class="layui-icon"></i>添加或更新</button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
-                            <table class="layui-table layui-form">
+                            <table class="layui-table layui-form" >
                                 <thead>
                                   <tr>
                                     <th>
@@ -58,7 +58,7 @@
                                 <c:forEach items="${list}" var="u">
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="id" value=${u.id}   lay-skin="primary">
+                                            <input type="checkbox"  name="id" value=${u.id}   lay-skin="primary">
                                         </td>
                                         <td>${u.id}</td>
                                         <td>${u.start}</td>
@@ -96,25 +96,16 @@
         var laydate = layui.laydate;
         var  form = layui.form;
 
-
         // 监听全选
         form.on('checkbox(checkall)', function(data){
-
           if(data.elem.checked){
             $('tbody input').prop('checked',true);
           }else{
             $('tbody input').prop('checked',false);
           }
           form.render('checkbox');
-        }); 
-        
-
-
-
+        });
       });
-
-
-
 
 
 

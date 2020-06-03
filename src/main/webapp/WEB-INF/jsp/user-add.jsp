@@ -33,19 +33,19 @@
                         <label for="L_1" class="layui-form-label">
                             <span class="x-red">*</span>姓名</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_1" name="name" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_1" name="name" required="" lay-verify="name" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_pass" class="layui-form-label">
                             <span class="x-red">*</span>密码</label>
                         <div class="layui-input-inline">
                             <input type="password" id="L_pass" name="password" required="" lay-verify="pass" autocomplete="off" class="layui-input"></div>
-                        <div class="layui-form-mid layui-word-aux">6到16个字符</div></div>
+                        <div class="layui-form-mid layui-word-aux">3到16个字符</div></div>
                     <div class="layui-form-item">
                         <label for="L_2" class="layui-form-label">
                             <span class="x-red">*</span>年龄</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_2" name="age" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_2" name="age" required="" lay-verify="age" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">
@@ -78,7 +78,7 @@
                         <label for="L_6" class="layui-form-label">
                             <span class="x-red">*</span>备注</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_6" name="info" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_6" name="info" required="" lay-verify="info" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_repass" class="layui-form-label">
@@ -92,6 +92,22 @@
                 </form>
             </div>
         </div>
+        <script>
+            function isRealNum(val){
+                // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
+                if(val === "" || val ==null){
+                    return false;
+                }
+                if(!isNaN(val)){
+                    //对于空数组和只有一个数值成员的数组或全是数字组成的字符串，isNaN返回false，例如：'123'、[]、[2]、['123'],isNaN返回false,
+                    //所以如果不需要val包含这些特殊情况，则这个判断改写为if(!isNaN(val) && typeof val === 'number' )
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        </script>
         <script>layui.use(['form', 'layer','jquery'],
             function() {
                 $ = layui.jquery;
@@ -100,17 +116,23 @@
 
                 //自定义验证规则
                 form.verify({
-                    nikename: function(value) {
+                    name: function(value) {
                         if (value.length < 2) {
                             return '昵称至少得2个字符啊';
                         }
                     },
-                    pass: [/(.+){6,12}$/, '密码必须6到12位'],
+                    pass: [/(.+){3,12}$/, '密码必须3到12位'],
                     repass: function(value) {
                         if ($('#L_pass').val() != $('#L_repass').val()) {
                             return '两次密码不一致';
                         }
-                    }
+                    },
+                    age: function(value){
+                        if (value<0 || value>120) {
+                            return '年龄0 到120之间';
+                        }
+                    },
+                    idcard:[/(.+){18,18}$/, '身份证必须18位'],
                 });
 
                 //监听提交
@@ -129,7 +151,7 @@
                         }
                     });
 
-                    layer.alert("增加成功", {
+                    layer.alert("成功", {
                         icon: 6
                     },
                     function() {

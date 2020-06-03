@@ -34,7 +34,7 @@
 
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加','../jspController/path-add',600,400)"><i class="layui-icon"></i>添加</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加','../jspController/path-add',600,400)"><i class="layui-icon"></i>添加或更新</button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
@@ -117,7 +117,7 @@
         });
   
         layer.confirm('确认要删除吗？'+ids.toString(),function(index){
-            alert("asasas"+ids[index-1]);
+
             //捉到所有被选中的，发异步进行删除
             for(var i=0;i<ids.length;i++){
                 $.ajax({

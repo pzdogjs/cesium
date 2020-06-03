@@ -27,7 +27,7 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="../jspController/index">X-admin v2.2</a></div>
+                <a href="../jspController/index">电磁态势可视化</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>

@@ -21,15 +21,17 @@
 <body class="login-bg">
     
     <div class="login layui-anim layui-anim-up">
-        <div class="message">x-admin2.0-管理登录</div>
+        <div class="message">电磁态势可视化</div>
         <div id="darkbannerwrap"></div>
         
         <form method="post" class="layui-form" >
-            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <input name="id" placeholder="用户名"  type="text" class="layui-input" >
             <hr class="hr15">
-            <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <input name="password"  placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+            <input value="root注册" lay-submit lay-filter="login2" style="width:100%;" type="submit">
             <hr class="hr20" >
         </form>
     </div>
@@ -44,11 +46,38 @@
               //监听提交
               form.on('submit(login)', function(data){
                 // alert(888)
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='index.html'
-                });
-                return false;
+                  $.ajax({
+                      type:"post",
+                      url: "../userController/lay-login",
+                      data:data.field,
+                      async:true,
+                      dataType:"json",
+                      success:function(data){
+                          if(data.success){
+                              location.href='../userController/lay-dologin'
+                          }else{
+                              alert("wrong")
+                          }
+                      }
+                  });
+
+
               });
+
+                form.on('submit(login2)', function(data){
+                    // alert(888)
+                    $.ajax({
+                        type:"post",
+                        url: "../userController/lay-re",
+                        data:data.field,
+                        async:true,
+                        dataType:"json",
+                        success:function(data){
+                            location.href='reg.jsp'
+
+                        }
+                    });
+                });
             });
         })
     </script>

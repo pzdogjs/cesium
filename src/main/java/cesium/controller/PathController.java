@@ -124,7 +124,6 @@ public class PathController {
 		//do
 		ModelAndView mv =new ModelAndView();
 		List<Path> l = pathService.showAll();
-		System.out.println(l.get(0).toString());
 
 		mv.addObject("list",l);
 		mv.setViewName("path_man");
@@ -165,16 +164,21 @@ public class PathController {
 	@ResponseBody
 	public Map<String,Object> insert(Path path) throws UnsupportedEncodingException {
 		System.out.println("insert================================re");
+		if(pathService.selectById(path.getId())==null){
+			try{
+				pathService.save(path);
+				result.put("success",true);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				result.put("success",false);
+				result.put("msg",e.getMessage());
+			}
+		}
+		else{
+			pathService.updateById(path);
+		}
 
-		try{
-			pathService.save(path);
-			result.put("success",true);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-			result.put("success",false);
-			result.put("msg",e.getMessage());
-		}
 		return result;
 	}
 

@@ -26,7 +26,7 @@
                         <label for="L_id" class="layui-form-label">
                             <span class="x-red">*</span>id</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_id" name="id" required="" lay-verify="id" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_id" name="id" required="" lay-verify="required|id" autocomplete="off" class="layui-input"></div>
                         <div class="layui-form-mid layui-word-aux">
                             <span class="x-red">*</span>key</div>
                     </div>
@@ -35,25 +35,27 @@
                         <label for="L_5" class="layui-form-label">
                             <span class="x-red">*</span>路径数据</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_5" name="data" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_5" name="data" required="" lay-verify="required|data" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>格式：内容是以逗号分割的数字，数量是4的倍数，每四个数字代表一个位置点，第一个是10的倍数，第二个经度，第三个纬度，第四个海拔</div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_4" class="layui-form-label">
                             <span class="x-red">*</span>起点名</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_4" name="start" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_4" name="start" required="" lay-verify="startname" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_2" class="layui-form-label">
                             <span class="x-red">*</span>终点名</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_2" name="end" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_2" name="end" required="" lay-verify="endname" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_1" class="layui-form-label">
                             <span class="x-red">*</span>备注</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_1" name="info" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_1" name="info" required="" lay-verify="info" autocomplete="off" class="layui-input"></div>
                     </div>
 
                     <div class="layui-form-item">
@@ -62,6 +64,22 @@
                 </form>
             </div>
         </div>
+        <script>
+            function isRealNum(val){
+                // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
+                if(val === "" || val ==null){
+                    return false;
+                }
+                if(!isNaN(val)){
+                    //对于空数组和只有一个数值成员的数组或全是数字组成的字符串，isNaN返回false，例如：'123'、[]、[2]、['123'],isNaN返回false,
+                    //所以如果不需要val包含这些特殊情况，则这个判断改写为if(!isNaN(val) && typeof val === 'number' )
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        </script>
         <script>layui.use(['form', 'layer','jquery'],
             function() {
                 $ = layui.jquery;
@@ -80,7 +98,19 @@
                         if ($('#L_pass').val() != $('#L_repass').val()) {
                             return '两次密码不一致';
                         }
-                    }
+                    },
+                    data:function(value) {
+                        var str = value.split(",");
+                        for(var i=0;i<str.length;i++){
+                            if(!isRealNum(str[i])){
+                                return '必须是数字集合';
+                            }
+                        }
+                        if(str.length%4  != 0){
+                            return '数字数量必须是4的整数倍';
+                        }
+
+                    },
                 });
 
                 //监听提交
@@ -99,7 +129,7 @@
                         }
                     });
 
-                    layer.alert("增加成功", {
+                    layer.alert("成功", {
                         icon: 6
                     },
                     function() {

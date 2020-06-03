@@ -122,7 +122,6 @@ public class AirController {
 		//do
 		ModelAndView mv =new ModelAndView();
 		List<Air> l = airService.showAll();
-		System.out.println(l.get(1).toString());
 
 		mv.addObject("list",l);
 		mv.setViewName("air_man");
@@ -162,19 +161,29 @@ public class AirController {
 	@ResponseBody
 	public Map<String,Object> insert(Air air) throws UnsupportedEncodingException {
 		System.out.println("insert================================re");
+		if(airService.selectById(air.getId())==null){
+			try{
+				airService.save(air);
+				result.put("success",true);
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				result.put("success",false);
+				result.put("msg",e.getMessage());
+			}
+		}
+		else{
+			airService.updateById(air);
+		}
 
-		try{
-			airService.save(air);
-			result.put("success",true);
-		}
-		catch (Exception e){
-			e.printStackTrace();
-			result.put("success",false);
-			result.put("msg",e.getMessage());
-		}
+
 		return result;
 	}
 
-
-
+	@RequestMapping("getall")
+	@ResponseBody
+	public List<Air> getall() {
+		//do
+		return airService.showAll();
+	}
 }

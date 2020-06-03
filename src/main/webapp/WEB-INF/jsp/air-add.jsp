@@ -26,56 +26,64 @@
                         <label for="L_id" class="layui-form-label">
                             <span class="x-red">*</span>id</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_id" name="id" required="" lay-verify="id" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_id" name="id" required="" lay-verify="required|id" autocomplete="off" class="layui-input"></div>
                         <div class="layui-form-mid layui-word-aux">
-                            <span class="x-red">*</span>将会成为您唯一的登入名</div></div>
+                            <span class="x-red">*</span>唯一id</div></div>
                     <div class="layui-form-item">
                         <label for="L_1" class="layui-form-label">
-                            <span class="x-red">*</span>姓名</label>
+                            <span class="x-red">*</span>命名</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_1" name="name" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_1" name="name" required="" lay-verify="required|name" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_12" class="layui-form-label">
                             <span class="x-red">*</span>出现时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_12" name="start" required="" lay-verify="start" autocomplete="off" class="layui-input"></div>
-                        <div class="layui-form-mid layui-word-aux">6到16个字符</div></div>
+                            <input type="text" id="L_12" name="start" required="" lay-verify="required|start" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>格式：2012-08-04T11:00:00Z</div>
+                    </div>
                     <div class="layui-form-item">
                         <label for="L_2" class="layui-form-label">
                             <span class="x-red">*</span>消失时间</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_2" name="end" required="" lay-verify="end" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_2" name="end" required="" lay-verify="required|end" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>格式：2012-08-04T11:00:00Z</div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_3" class="layui-form-label">
                             <span class="x-red">*</span>型号</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_3" name="type" required="" lay-verify="type" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_3" name="type" required="" lay-verify="required|type" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
-                        <label for="L_4" class="layui-form-label">
+                        <label for="L_x" class="layui-form-label">
                             <span class="x-red">*</span>默认位置之经度</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_4" name="x" required="" lay-verify="x" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_x" name="x" required="" lay-verify="required|x" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>180 ~-180</div>
                     </div>
                     <div class="layui-form-item">
-                        <label for="L_7" class="layui-form-label">
+                        <label for="L_y" class="layui-form-label">
                             <span class="x-red">*</span>默认位置之纬度</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_7" name="y" required="" lay-verify="y" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_y" name="y" required="" lay-verify="required|y" autocomplete="off" class="layui-input"></div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>90~ -90</div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_5" class="layui-form-label">
                             <span class="x-red">*</span>默认位置之海拔</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_5" name="h" required="" lay-verify="h" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_5" name="h" required="" lay-verify="required|h" autocomplete="off" class="layui-input"></div>
                     </div>
                     <div class="layui-form-item">
                         <label for="L_6" class="layui-form-label">
                             <span class="x-red">*</span>备注</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="L_6" name="info" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+                            <input type="text" id="L_6" name="info" required="" lay-verify="info" autocomplete="off" class="layui-input"></div>
                     </div>
 
                     <div class="layui-form-item">
@@ -84,6 +92,22 @@
                 </form>
             </div>
         </div>
+        <script>
+        function isRealNum(val){
+            // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
+        　　if(val === "" || val ==null){
+                 return false;
+        　　}
+            if(!isNaN(val)){　　　　
+        　　  //对于空数组和只有一个数值成员的数组或全是数字组成的字符串，isNaN返回false，例如：'123'、[]、[2]、['123'],isNaN返回false,
+             //所以如果不需要val包含这些特殊情况，则这个判断改写为if(!isNaN(val) && typeof val === 'number' )
+        　　　     return true;
+        　　  }
+        　   else{
+        　　　　return false;
+        　　}
+        }
+        </script>
         <script>layui.use(['form', 'layer','jquery'],
             function() {
                 $ = layui.jquery;
@@ -92,7 +116,8 @@
 
                 //自定义验证规则
                 form.verify({
-                    nikename: function(value) {
+                    name: function(value) {
+
                         if (value.length < 2) {
                             return '昵称至少得2个字符啊';
                         }
@@ -102,7 +127,29 @@
                         if ($('#L_pass').val() != $('#L_repass').val()) {
                             return '两次密码不一致';
                         }
-                    }
+                    },
+                    h: function(value) {
+                        if(!isRealNum(value)){
+                            return '海拔必须是数字';
+                        }
+                    },
+                    x: function(value) {
+                        if(!isRealNum(value)){
+                            return '经度必须是数字';
+                        }
+                        if($('#L_x').val()>180 || $('#L_x').val()<-180 ){
+                            return '经度度必须在180 与 -180间';
+                        }
+                    },
+                    y: function(value) {
+                        if(!isRealNum(value)){
+                            return '纬度必须是数字';
+                        }
+                        if($('#L_y').val()>90 || $('#L_x').val()<-90 ){
+                            return '纬度必须在90 与 -90间';
+                        }
+                    },
+
                 });
 
                 //监听提交
@@ -121,7 +168,7 @@
                         }
                     });
 
-                    layer.alert("增加成功", {
+                    layer.alert("成功", {
                         icon: 6
                     },
                     function() {

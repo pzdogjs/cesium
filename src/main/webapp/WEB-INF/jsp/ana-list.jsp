@@ -38,11 +38,11 @@
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <button class="layui-btn" onclick=""><i class="layui-icon"></i>飞机信息</button>
-                            <table class="layui-table layui-form">
+                            <table class="layui-table layui-form"  >
                                 <thead>
                                   <tr>
                                     <th>
-                                      <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
+
                                     </th>
                                     <th>ID</th>
                                     <th>出现时间</th>
@@ -60,7 +60,7 @@
                                 <c:forEach items="${air}" var="u">
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="id" value=${u.id}   lay-skin="primary">
+                                            <input type="checkbox" name="id"  lay-filter="id" value="air${u.id}"  lay-skin="primary">
                                         </td>
                                         <td>${u.id}</td>
                                         <td>${u.start}</td>
@@ -72,9 +72,15 @@
                                         <td>${u.y}</td>
                                         <td>${u.h}</td>
                                         <td>
-                                        <select name="mypath" id="" lay-filter="mySelect">
+                                        <select  name = "pzs" id="pair${u.id}">
                                             <c:forEach items="${path}" var="u">
-                                            <option value=${u.id}>id:${u.id}</option>
+                                                <option value=${u.id}>id:${u.id}</option>
+                                                <!--
+                                                <option value=${u.id}>
+                                                id:${u.id}
+                                                </option>
+                                                下拉框会显示异常？
+                                                -->
                                             </c:forEach>
                                         </select>
                                         </td>
@@ -90,7 +96,7 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                        <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
+
                                     </th>
                                     <th>ID</th>
                                     <th>经度</th>
@@ -99,7 +105,7 @@
                                     <th>影响范围</th>
                                     <th>name</th>
                                     <th>频率</th>
-                                    <th>设备类型</th>
+                                    <th>设备型号</th>
                                     <th>运行状态</th>
                                     <th>任务</th>
                                     <th>备注信息</th>
@@ -109,7 +115,7 @@
                                 <c:forEach items="${ele}" var="u">
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="id" value=${u.id}   lay-skin="primary">
+                                            <input type="checkbox" name="id" value="ele${u.id}"  lay-skin="primary">
                                         </td>
                                         <td>${u.id}</td>
                                         <td>${u.x}</td>
@@ -172,63 +178,72 @@
         </div> 
     </body>
     <script>
-      layui.use(['laydate','form'], function(){
+      layui.use(['laydate','form','table'], function(){
+
         var laydate = layui.laydate;
         var  form = layui.form;
 
-
-        // 监听全选
-        form.on('checkbox(checkall)', function(data){
-
-          if(data.elem.checked){
-            $('tbody input').prop('checked',true);
-          }else{
-            $('tbody input').prop('checked',false);
-          }
-          form.render('checkbox');
-        }); 
-        
-
-
-
       });
-
-
-
-
-
-
       function All (argument) {
-        var ids = [];
+          var ids = [];
+          // 获取选中的id
+          $('tbody input').each(function(index, el) {
+              if($(this).prop('checked')){
+                  ids.push($(this).val())
+              }
+          });
+          layer.confirm('开始分析？'+ids.toString(),function(index){
+              var idsAir = "";
+              var idsEle = "";
+              for(var i=0;i<ids.length;i++){
+                  var id = ids[i];
+                  if(id.indexOf('air') == -1){
+                      idsEle=idsEle+id+",";
+                  }
+                  else{
+                      idsAir = idsAir+id+",path"+$("#p"+id).val()+","
+                  }
+              }
+              //alert("ids===="+idsAir+idsEle);
 
-        // 获取选中的id 
-        $('tbody input').each(function(index, el) {
-            if($(this).prop('checked')){
-               ids.push($(this).val())
-            }
-        });
-  
-        layer.confirm('确认要删除吗？'+ids.toString(),function(index){
-            alert("asasas"+ids[index-1]);
-            //捉到所有被选中的，发异步进行删除
-            for(var i=0;i<ids.length;i++){
-                $.ajax({
-                    type:"post",
-                    url: "../airController/dele",
-                    data:{
-                        "id":ids[i]
-                    },
-                    async:true,
-                    dataType:"json",
-                    success:function(data){
-                        layer.msg('删除成功', {icon: 1});
-                        $(".layui-form-checked").not('.header').parents('tr').remove();
-                    }
-                });
-            }
-
-
-        });
+              $.ajax({
+                  type:"post",
+                  url: "../jspController/ana",
+                  data:{
+                      "eleIds":idsEle,
+                      "airIds":idsAir
+                  },
+                  async:true,
+                  dataType:"json",
+                  success:function(data){
+                      if(data.success){
+                          //一旦data的元素取出一次后，就会变为空？再取无值？？
+                          localStorage.setItem("eleList",JSON.stringify(data.eleList
+                          ));
+                          localStorage.setItem("heatList",JSON.stringify(data.heatList
+                          ));
+                          localStorage.setItem("airList",JSON.stringify(
+                              data.airList
+                          ));
+                          localStorage.setItem("pathList",JSON.stringify(
+                              data.pathList
+                          ));
+                          localStorage.setItem("eleFList",JSON.stringify(
+                              data.eleFList
+                          ));
+                          localStorage.setItem("airFList",JSON.stringify(
+                              data.airFList
+                          ));
+                          localStorage.setItem("timeList",JSON.stringify(
+                              data.timeList
+                          ));
+                          var newWin = window.open('../ana-all.jsp');//先打开页面再跳转会异常
+                      }else{
+                          alert("error"+data.msg);
+                      }
+                  }//success
+              });//ajax
+          });
       }
     </script>
 </html>
